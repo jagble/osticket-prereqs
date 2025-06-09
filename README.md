@@ -28,24 +28,24 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 
 <h2>Installation Steps</h2>
 
-### **Step 1: Create an Azure Account**
+### **Step 1 - Create an Azure Account**
+
 
 To follow along, you’ll need an Azure account. If you don’t already have one:
 
 Go to https://portal.azure.com
 
+<img src="https://i.imgur.com/iCdPlm0.png" alt="OSTicket Login" width="600"/>
+
 Sign up or log in
 
 Azure offers a free tier with credits for new users
 
-Once you’re logged into the Azure Portal, you're ready to begin setting up your VM.
+Once you’re logged into the Azure Portal, you're ready to begin the Lab.
 
-<p>
-![OSTicket Login](https://i.imgur.com/iCdPlm0.png)
 
-## Test Image Render
 
-![Test Image](https://i.imgur.com/iCdPlm0.png)
+
 
 
 </p>
