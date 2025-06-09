@@ -43,6 +43,11 @@ Once you’re logged into the Azure Portal, you're ready to begin setting up you
 <p>
 ![OSTicket Login](https://i.imgur.com/iCdPlm0.png)
 
+## Test Image Render
+
+![Test Image](https://i.imgur.com/iCdPlm0.png)
+
+
 </p>
 <p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
