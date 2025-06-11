@@ -377,7 +377,7 @@ Now that PHP has been extracted and installed, we need to register it within IIS
 
 You should now see PHP listed as registered in PHP Manager.
 
-<img src="https://i.imgur.com/j9IS2H3.png" alt="PHP Successfully Registered in IIS" width="700"/>
+<img src="https://i.imgur.com/j9IS2H3.png" alt="PHP Successfully Registered in IIS" width="350"/>
 
 > ✅ PHP is now linked to IIS and ready to process `.php` files.
 
@@ -393,6 +393,259 @@ To apply the changes:
  <img src="https://i.imgur.com/sOOVgpa.png" alt="Select php-cgi.exe in PHP Manager" width="150"/>
 
 > 🔄 This restarts the IIS service with PHP enabled and ready to go.
+
+---
+
+### **Step 9: Install osTicket v1.15.8**
+
+Now that IIS is configured and PHP is registered, it’s time to deploy the osTicket web files.
+
+
+
+#### 🔹 1. Extract the osTicket ZIP File
+
+Inside the `osTicket-Installation-Files` folder on your Desktop, locate: **osTicket-v1.15.8.zip**
+
+
+- Right-click the ZIP file → **Extract All**
+- You’ll see a folder named **`upload`** after extraction
+
+
+
+#### 🔹 2. Copy the Upload Folder to IIS Web Root
+
+- Navigate to: **C:\inetpub\wwwroot**
+
+
+- Copy the **`upload`** folder from the extracted osTicket files
+- Paste it into the **`wwwroot`** directory
+
+
+
+#### 🔹 3. Rename the Folder to “osTicket”
+
+Still in `C:\inetpub\wwwroot`:
+
+- Right-click the folder named **upload**
+- Choose **Rename**
+- Rename it to: `osTicket`
+
+
+<img src="https://i.imgur.com/e7Wnh9Y.png" alt="osTicket folder in wwwroot" width="600"/>
+
+> ✅ IIS will now serve the osTicket application from `http://localhost/osTicket` or your VM's public IP.
+
+
+--- 
+
+### **Step 10: Launch the osTicket Web Installer**
+
+With the osTicket files in place and IIS properly configured, it’s time to test that the web app loads correctly.
+
+
+
+#### 🔹 1. Reload IIS and Start the osTicket Site
+
+- Open **IIS Manager** (as Administrator)
+- In the **left panel**, click your **server name**
+- In the **right panel**, under Actions, click: **Stop**
+
+
+Then immediately click: **Start**
+
+
+> 🔄 This restarts the IIS service to ensure all changes are applied.
+
+
+
+In IIS:
+
+- Expand **Sites**
+- Expand **Default Web Site**
+- Click on **osTicket**
+- In the right-hand panel under **Actions**, click: **Browse *:80 (http)**
+
+  <img src="https://i.imgur.com/l6eXFup.png" alt="Browse osTicket in IIS" width="500"/>
+
+> 🌐 This will open your default web browser and navigate to `http://localhost/osTicket` on the VM.
+
+If everything was done correctly, you should see the osTicket installation page like the one below:
+
+<img src="https://i.imgur.com/Z3FvIln.png" alt="osTicket Installer Page" width="500"/>
+
+If everything was done correctly, you should see the osTicket installation page.
+
+> ✅ *If the page doesn’t load, double-check that you renamed the folder to `osTicket`, restarted IIS, and that IIS is serving from the correct directory (`C:\inetpub\wwwroot\osTicket`).*
+
+#### 🔹 2. Enable Missing PHP Extensions
+
+You may notice that certain PHP extensions are reported as missing or disabled on the installer page.
+
+To enable them:
+
+- Go back to **IIS**
+- Expand **Sites → Default Web Site → osTicket**
+- Double-click **PHP Manager**
+
+<img src="https://i.imgur.com/8Czhjwd.png" alt="PHP Manager in IIS" width="600"/>
+
+- Click **“Enable or disable an extension”**
+
+
+
+- Enable the following extensions:
+
+`php_imap.dll`
+`php_intl.dll`
+`php_opcache.dll`
+
+<img src="https://i.imgur.com/o3JgLQb.png" alt="Enable or Disable PHP Extensions" width="400"/>
+
+
+
+- After enabling them, refresh the osTicket installer page in your browser to confirm the extensions are now active
+
+
+
+#### 🔹 3. Rename the osTicket Config File
+
+Before continuing with installation, you need to rename the config file:
+
+- Navigate to: C:\inetpub\wwwroot\osTicket\include
+
+
+- Find the file: ost-sampleconfig.php
+
+
+
+
+- Rename it to: ost-config.php
+
+<img src="https://i.imgur.com/mrROIUc.png" alt="Enabled PHP Extensions" width="400"/>
+
+
+
+
+
+#### 🔹 4. Set Permissions for ost-config.php
+
+- Right-click on `ost-config.php` → **Properties**
+- Go to the **Security** tab
+
+
+
+
+
+
+
+- Click **Advanced**
+- Click **Disable inheritance**
+
+<img src="https://i.imgur.com/PPlPk4s.png" alt="ost-sampleconfig.php Location" width="400"/>
+
+- Remove all existing permissions
+- Click **Add** → Set new principal as **Everyone**
+
+<img src="https://i.imgur.com/EVLAuAJ.png" alt="Renamed to ost-config.php" width="400"/>
+
+- Grant **Full control** to **Everyone**
+
+<img src="https://i.imgur.com/rEWABdT.png" alt="Security Tab in Properties" width="400"/>
+
+
+- Click **Apply** and **OK**
+
+<img src="https://i.imgur.com/i0ObfEW.png" alt="Set Everyone to Full Control" width="200"/>
+
+> 🔐 This ensures osTicket can write to the config file during installation.
+
+
+---
+
+### **Step 11: Complete the osTicket Installation & Configure Database (HeidiSQL)**
+
+Now that the environment is fully configured, it’s time to finalize the osTicket installation via the browser and set up your MySQL database using HeidiSQL.
+
+
+
+#### 🔹 1. Launch the osTicket Web Installer
+
+In your browser, with `http://localhost/osTicket` open, begin filling in the setup fields.
+
+<img src="https://i.imgur.com/xydcrVw.png" alt="osTicket Installer Page Fields" width="600"/>
+
+- Under **Helpdesk Settings**, you’ll be asked to enter things like:
+  - Helpdesk name
+  - Default email
+  - Admin name
+  - Admin username/password
+
+> ⚠️ **Note:** You can put anything you'd like here — these values are not super critical.  
+> Just **make sure you remember the admin username and password** so you can log in afterward.
+
+
+
+#### 🔹 2. Install HeidiSQL
+
+- Go to your **osTicket-Installation-Files** folder
+- Locate and install: **HeidiSQL_Installer.exe**
+
+<img src="https://i.imgur.com/w2pwuj9.png" alt="Create osTicket DB in HeidiSQL" width="400"/>
+
+- After installing, open **HeidiSQL**
+
+
+
+
+
+#### 🔹 3. Create a New MySQL Session
+
+- In HeidiSQL, create a new session with the following credentials:
+
+Username: `root`
+Password: `root`
+
+
+- Click **Open** to connect
+
+- Once inside, right-click the left panel → **Create New → Database**
+
+- Name the new database: `osTicket`
+
+
+> ✅ The database is now ready to connect with osTicket
+
+
+
+
+
+#### 🔹 4. Finish osTicket Setup in Browser
+
+- Go back to the **osTicket installation page**
+- Scroll to the **MySQL Database Settings** section
+
+Enter:
+
+MySQL Database: `osTicket`
+
+MySQL Username: `root`
+
+MySQL Password: `root`
+
+<img src="https://i.imgur.com/cTYDNei.png" alt="Open HeidiSQL" width="500"/>
+
+- Click: **Install Now!**
+
+
+> 🎉 If everything is entered correctly, osTicket will complete the installation and you’ll be taken to the admin panel login page.
+
+
+
+
+
+
+
+
 
 
 
