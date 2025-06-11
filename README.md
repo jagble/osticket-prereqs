@@ -24,7 +24,6 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 
 - [OsTicket Download](https://drive.google.com/uc?export=download&id=1b3RBkXTLNGXbibeMuAynkfzdBC1NnqaD)
 - [Pre-Installation Checklist](https://docs.google.com/document/d/1DyjX8LeVU98LjhXO2t2K2F0aHywI2N9GD57T3taO5qo/edit?tab=t.0)
-- Item 3
 
 <h2>Installation Steps</h2>
 
@@ -168,8 +167,232 @@ When prompted:
 
 You’ll now be connected to your virtual machine’s desktop environment.
 
-> ✅ *From here, you can begin installing software, setting up your ticketing system, or making system changes as needed.*
+> ✅ *From here, we will begin installing software, setting up your ticketing system, or making system changes as needed.*
 
 
 
 ---
+
+### **Step 5: Download and Prepare the osTicket Installation Files**
+
+Inside your VM, download the osTicket installation package and extract it to the desktop.
+
+
+
+#### 🔹 1. Download the ZIP
+
+Click the link below to download the installation files:
+
+👉 [osTicket Download](https://drive.google.com/uc?export=download&id=1b3RBkXTLNGXbibeMuAynkfzdBC1NnqaD)
+
+- When prompted, click **Download**
+- If your browser flags the file, choose **Download Anyway**
+
+<img src="./screenshots/googledrivedownload.png" alt="Azure VM Basics Tab" width="500"/>
+  
+
+> 💡 This ZIP file includes osTicket and some required dependencies already packaged.
+
+
+
+#### 🔹 2. Unzip to the Desktop
+
+- Right-click the downloaded file → **Extract All**
+- Choose **Desktop** as the destination
+- You should now see a folder named: osTicket-Installation-Files
+
+- 
+Located here:
+C:\Users<YourUser>\Desktop\osTicket-Installation-Files
+
+
+> ✅ We’ll use the files in this folder to install osTicket and its required components in the upcoming steps.
+
+
+---
+
+### **Step 6: Install and Enable IIS with CGI Support**
+
+To run osTicket on Windows, we need to install **IIS (Internet Information Services)** and enable **CGI** to allow PHP to function properly.
+
+This is done through Windows Features in the Control Panel.
+
+
+
+#### 🔹 1. Open Windows Features
+
+Inside your VM:
+
+- Open the **Control Panel**
+- Go to **Programs**
+- Click **“Turn Windows features on or off”**
+
+> 💡 You can also search “Windows Features” in the Start menu to access it directly.
+
+
+
+#### 🔹 2. Enable IIS and CGI
+
+In the **Windows Features** window:
+
+- Scroll down and check **Internet Information Services**
+- Expand it by clicking the `+` symbol
+- Then expand **World Wide Web Services**
+- Expand **Application Development Features**
+- Check the box for **CGI**
+
+
+<img src="https://i.imgur.com/Vt5lolM.png" alt="Enable IIS and CGI in Windows Features" width="700"/>
+
+Click **OK** to install IIS and CGI. Windows will take a few minutes to apply the changes.
+
+---
+
+### **Step 7: Install Required IIS Extensions and Set Up PHP Directory**
+
+Now that IIS and CGI are enabled, it’s time to install a few important components from the `osTicket-Installation-Files` folder to make IIS compatible with PHP and URL rewriting — both necessary for osTicket to run.
+
+
+
+#### 🔹 1. Open the Installation Folder
+
+Navigate to the Desktop and open the folder named: `osTicket-Installation-Files`
+
+
+<img src="https://i.imgur.com/5aKvqIU.png" alt="osTicket Installation Files Folder" width="700"/>
+
+
+
+#### 🔹 2. Install PHP Manager for IIS
+
+- Double-click **`PHPManagerForIIS_V1.5.0.msi`**
+- Go through the installer and complete the setup
+
+> 🛠️ This tool allows you to easily manage and configure PHP settings within IIS.
+
+
+
+#### 🔹 3. Install URL Rewrite Module
+
+- Double-click **`rewrite_amd64_en-US.msi`**
+- Follow the prompts to complete the installation
+
+> 🔁 This module is required by osTicket to support user-friendly URLs and redirects.
+
+
+
+#### 🔹 4. Create the PHP Directory
+
+Now create a directory that will hold your PHP files:
+
+1. Open **File Explorer**
+2. Navigate to the **C:\** drive
+3. Right-click inside the window → **New > Folder**
+4. Name the folder: `PHP`
+
+
+> 📁 You should now have an empty folder at `C:\PHP` ready for the next step, where we’ll extract and configure PHP.
+
+   
+
+#### 🔹 5. Extract PHP, Install VC++ Runtime, and MySQL
+
+Next, extract and install the necessary components for osTicket to run properly.
+
+
+
+##### ✅ Extract PHP
+
+- Inside the installation folder, find:`php-7.3.8-nts-Win32-VC15-x86.zip`
+
+- Right-click → **Extract All**
+- Set the destination to: `C:\PHP`
+
+<img src="https://i.imgur.com/1Ifha26.png" alt="Extracted PHP Folder in C Drive" width="700"/>
+
+  
+> ✅ When done, your `C:\PHP` folder should now contain the PHP files needed for IIS.
+
+
+
+##### ✅ Install Visual C++ Redistributable
+
+- Run **`VC_redist.x86.exe`**
+- Accept the license terms and complete the setup
+
+> 🧱 Required for PHP 7.3.8 to function correctly on Windows
+
+
+
+##### ✅ Install MySQL 5.5.62
+
+- Run **`mysql-5.5.62-win32.msi`**
+- Choose **Typical Setup**
+- After install, launch the **MySQL Instance Configuration Wizard**
+
+In the wizard:
+
+- Choose **Standard Configuration**
+- Set login credentials to:
+Username: `root`
+Password: `root`
+
+
+> 🔐 Remember these credentials — they’ll be used to connect osTicket to the database later.
+
+
+At this point, your VM is ready with PHP, MySQL, and all required IIS modules installed. You’re now set to configure IIS and link it with PHP.
+
+---
+
+### **Step 8: Register PHP with IIS Using PHP Manager**
+
+Now that PHP has been extracted and installed, we need to register it within IIS using PHP Manager so the server knows how to handle `.php` files.
+
+
+
+#### 🔹 1. Open IIS as Administrator
+
+- Click **Start**, search for **IIS** or **Internet Information Services (IIS) Manager**
+- Right-click it and select **Run as Administrator**
+
+> ⚠️ PHP Manager may not show or work properly unless IIS is opened with admin rights.
+
+
+
+#### 🔹 2. Register PHP with PHP Manager
+
+- In IIS, click your **server name** in the left panel (not a specific site)
+- Double-click **PHP Manager**
+
+<img src="https://i.imgur.com/8Czhjwd.png" alt="Open PHP Manager in IIS" width="700"/>
+
+- Click **“Register new PHP version”**
+- Browse to: **C:\PHP\php-cgi.exe**
+
+
+<img src="https://i.imgur.com/tPHKCyx.png" alt="Browse for php-cgi.exe" width="700"/>
+
+- Click **OK** to register PHP
+
+You should now see PHP listed as registered in PHP Manager.
+
+<img src="https://i.imgur.com/j9IS2H3.png" alt="PHP Successfully Registered in IIS" width="700"/>
+
+> ✅ PHP is now linked to IIS and ready to process `.php` files.
+
+
+
+#### 🔹 3. Reload IIS
+
+To apply the changes:
+
+- In IIS, click your **server name** again
+- In the right panel (Actions), click **Stop**
+- Then click **Start**
+ <img src="https://i.imgur.com/sOOVgpa.png" alt="Select php-cgi.exe in PHP Manager" width="150"/>
+
+> 🔄 This restarts the IIS service with PHP enabled and ready to go.
+
+
+
