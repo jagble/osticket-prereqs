@@ -572,7 +572,7 @@ Now that the environment is fully configured, it’s time to finalize the osTick
 
 In your browser, with `http://localhost/osTicket` open, begin filling in the setup fields.
 
-<img src="https://i.imgur.com/xydcrVw.png" alt="osTicket Installer Page Fields" width="600"/>
+<img src="https://i.imgur.com/TkHNQ0L.png" alt="osTicket Installer Page Fields" width="600"/>
 
 - Under **Helpdesk Settings**, you’ll be asked to enter things like:
   - Helpdesk name
@@ -580,7 +580,7 @@ In your browser, with `http://localhost/osTicket` open, begin filling in the set
   - Admin name
   - Admin username/password
 
-> ⚠️ **Note:** You can put anything you'd like here — these values are not super critical.  
+> ⚠️ **Note:** I’m building a helpdesk for a mock cybersecurity firm called CyberFix. You can follow along with the same setup, or create your own company name and branding if you want to customize it.  
 > Just **make sure you remember the admin username and password** so you can log in afterward.
 
 
