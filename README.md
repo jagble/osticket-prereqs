@@ -8,22 +8,25 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 
 <h2>Video Demonstration</h2>
 
-- ### [YouTube: How To Install osTicket with Prerequisites](https://www.youtube.com)
+A full video walkthrough will be added here soon!  
+> 🔗 [Watch the Video Tutorial (Coming Soon)](#)
 
 <h2>Environments and Technologies Used</h2>
 
 - Microsoft Azure (Virtual Machines/Compute)
 - Remote Desktop
 - Internet Information Services (IIS)
+- Windows 10 (running on Azure VM)
+- HeidiSQL
+- MySQL 5.5.62
+- PHP 7.3.8
 
-<h2>Operating Systems Used </h2>
-
-- Windows 10</b> (21H2)
 
 <h2>List of Prerequisites</h2>
 
 - [OsTicket Download](https://drive.google.com/uc?export=download&id=1b3RBkXTLNGXbibeMuAynkfzdBC1NnqaD)
-- [Pre-Installation Checklist](https://docs.google.com/document/d/1DyjX8LeVU98LjhXO2t2K2F0aHywI2N9GD57T3taO5qo/edit?tab=t.0)
+- [Microsoft Azure Account](https://portal.azure.com/)
+- Remote Desktop Client (RDP)
 
 <h2>Installation Steps</h2>
 
